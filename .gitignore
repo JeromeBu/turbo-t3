@@ -24,6 +24,9 @@ apps/expo/.gitignore
 apps/expo/ios
 apps/expo/android
 
+# generated
+apps/nextjs/src/generated-routes.ts
+
 # production
 build
 
@@ -50,3 +53,5 @@ dist/
 
 # turbo
 .turbo
+.idea
+docker-data

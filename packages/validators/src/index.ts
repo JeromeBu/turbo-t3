@@ -1,8 +1,16 @@
 import { z } from "zod";
 
-export const unused = z.string().describe(
-  `This lib is currently not used as we use drizzle-zod for simple schemas
-   But as your application grows and you need other validators to share
-   with back and frontend, you can put them in here
-  `,
-);
+export const createPostSchema = z.object({
+  id: z.string().min(1).max(32),
+  title: z.string().max(256),
+  content: z.string().max(256),
+});
+
+export const emailSchema = z.string().email();
+
+export const emailAndPasswordSchema = z.object({
+  email: emailSchema,
+  password: z.string().min(7),
+});
+
+export type EmailAndPassword = z.infer<typeof emailAndPasswordSchema>;

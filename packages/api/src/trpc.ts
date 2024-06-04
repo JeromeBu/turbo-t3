@@ -1,3 +1,19 @@
+import type { AuthUseCases, Session, User } from "easy-lucia";
+import type { CookieAccessor } from "easy-lucia/types";
+import { initTRPC, TRPCError } from "@trpc/server";
+import { createAuthUseCases, createLuciaAndAuthRepository } from "easy-lucia";
+import superjson from "superjson";
+import { ZodError } from "zod";
+
+
+
+import type { KyselyDb } from "@acme/db";
+import { db } from "@acme/db";
+
+
+
+
+
 /**
  * YOU PROBABLY DON'T NEED TO EDIT THIS FILE, UNLESS:
  * 1. You want to modify request context (see Part 1)
@@ -6,12 +22,7 @@
  * tl;dr - this is where all the tRPC server stuff is created and plugged in.
  * The pieces you will need to use are documented accordingly near the end
  */
-import { initTRPC, TRPCError } from "@trpc/server";
-import superjson from "superjson";
-import { ZodError } from "zod";
 
-import type { Session } from "@acme/auth";
-import { db } from "@acme/db/client";
 
 /**
  * 1. CONTEXT
@@ -25,17 +36,23 @@ import { db } from "@acme/db/client";
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = (opts: {
+
+export const createTRPCContext = async (opts: {
   headers: Headers;
+  validateRequest: AuthUseCases["validateRequest"];
+}): Promise<{
   session: Session | null;
-}) => {
-  const session = opts.session;
+  user: User | null;
+  db: KyselyDb;
+}> => {
   const source = opts.headers.get("x-trpc-source") ?? "unknown";
 
-  console.log(">>> tRPC Request from", source, "by", session?.user);
+  const { session, user } = await opts.validateRequest();
+  console.log(">>> tRPC Request from", source, "by", session?.userId);
 
   return {
     session,
+    user,
     db,
   };
 };
@@ -94,13 +111,17 @@ export const publicProcedure = t.procedure;
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.session?.user) {
+  console.log("CTX : ", ctx);
+
+  if (!ctx.session || !ctx.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
+
   return next({
     ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
+      ...ctx,
+      session: ctx.session,
+      user: ctx.user,
     },
   });
 });
