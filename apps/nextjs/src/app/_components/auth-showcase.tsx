@@ -1,29 +1,22 @@
-import { auth, signIn, signOut } from "@acme/auth";
+import { redirect } from 'next/navigation'
+
 import { Button } from "@acme/ui/button";
 
-export async function AuthShowcase() {
-  const session = await auth();
+import { api } from "~/trpc/server";
 
-  if (!session) {
-    return (
-      <form>
-        <Button
-          size="lg"
-          formAction={async () => {
-            "use server";
-            await signIn("discord");
-          }}
-        >
-          Sign in with Discord
-        </Button>
-      </form>
-    );
+export async function AuthShowcase() {
+  const { user } = await api.auth.getSessionAndUser();
+
+  if (!user) {
+    // redirect programmatically to sign up page
+    redirect("/sign-up");
+    return
   }
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl">
-        <span>Logged in as {session.user.name}</span>
+        <span>Logged in as {user.email}</span>
       </p>
 
       <form>
@@ -31,7 +24,7 @@ export async function AuthShowcase() {
           size="lg"
           formAction={async () => {
             "use server";
-            await signOut();
+            await api.auth.logout();
           }}
         >
           Sign out

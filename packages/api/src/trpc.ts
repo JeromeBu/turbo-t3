@@ -1,3 +1,19 @@
+import { initTRPC, TRPCError } from "@trpc/server";
+import superjson from "superjson";
+import { ZodError } from "zod";
+
+import type { KyselyDb } from "@acme/db";
+import {
+  createAuthUseCases,
+  createLucia,
+  createPgAuthRepository,
+  Session,
+  User,
+} from "@acme/auth";
+import { env } from "@acme/auth/src/env";
+import { db } from "@acme/db";
+import { Cookies } from "@acme/validators";
+
 /**
  * YOU PROBABLY DON'T NEED TO EDIT THIS FILE, UNLESS:
  * 1. You want to modify request context (see Part 1)
@@ -6,12 +22,18 @@
  * tl;dr - this is where all the tRPC server stuff is created and plugged in.
  * The pieces you will need to use are documented accordingly near the end
  */
-import { initTRPC, TRPCError } from "@trpc/server";
-import superjson from "superjson";
-import { ZodError } from "zod";
 
-import type { Session } from "@acme/auth";
-import { db } from "@acme/db/client";
+const authUseCases = createAuthUseCases({
+  lucia: createLucia({ env: env.NODE_ENV, mode: "pg" }),
+  authRepository: createPgAuthRepository(db),
+  emails: {
+    sendVerificationCode: async (params) => {
+      await "yolo"
+      console.log(">>> sendVerificationCode with params : ", params);
+      /* TODO: Implement */
+    },
+  },
+});
 
 /**
  * 1. CONTEXT
@@ -25,18 +47,28 @@ import { db } from "@acme/db/client";
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = (opts: {
+
+export const createTRPCContext = async (opts: {
   headers: Headers;
+  cookies: Cookies;
+}): Promise<{
+  cookies: Cookies;
   session: Session | null;
-}) => {
-  const session = opts.session;
+  user: User | null;
+  db: KyselyDb;
+  authUseCases: ReturnType<typeof createAuthUseCases>;
+}> => {
   const source = opts.headers.get("x-trpc-source") ?? "unknown";
 
-  console.log(">>> tRPC Request from", source, "by", session?.user);
+  const { session, user } = await authUseCases.validateRequest(opts.cookies);
+  console.log(">>> tRPC Request from", source, "by", session?.userId);
 
   return {
+    cookies: opts.cookies,
     session,
+    user,
     db,
+    authUseCases,
   };
 };
 
@@ -94,13 +126,17 @@ export const publicProcedure = t.procedure;
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.session?.user) {
+  console.log("CTX : ", ctx);
+
+  if (!ctx.session || !ctx.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
+
   return next({
     ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
+      ...ctx,
+      session: ctx.session,
+      user: ctx.user,
     },
   });
 });

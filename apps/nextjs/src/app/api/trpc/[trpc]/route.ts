@@ -1,9 +1,16 @@
+import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
-import { appRouter, createTRPCContext } from "@acme/api";
-import { auth } from "@acme/auth";
 
-export const runtime = "edge";
+
+import { appRouter, createTRPCContext } from "@acme/api";
+
+
+
+
+
+// export const runtime = "edge";
 
 /**
  * Configure basic CORS headers
@@ -24,15 +31,15 @@ export const OPTIONS = () => {
   return response;
 };
 
-const handler = auth(async (req) => {
+const handler = async (req: NextRequest) => {
   const response = await fetchRequestHandler({
     endpoint: "/api/trpc",
     router: appRouter,
     req,
     createContext: () =>
       createTRPCContext({
-        session: req.auth,
         headers: req.headers,
+        cookies,
       }),
     onError({ error, path }) {
       console.error(`>>> tRPC Error on '${path}'`, error);
@@ -41,6 +48,6 @@ const handler = auth(async (req) => {
 
   setCorsHeaders(response);
   return response;
-});
+};
 
 export { handler as GET, handler as POST };
