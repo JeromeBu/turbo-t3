@@ -26,10 +26,16 @@ const createEmails = (
   const transporter = nodemailer.createTransport(smtpUrl);
 
   return {
-    sendVerificationCode: async (params) => {
+    sendSignedUpSuccessfully: async (params) => {
       await transporter.sendMail({
         from,
-        ...emails.sendVerificationCode(params),
+        ...emails.sendSignedUpSuccessfully(params),
+      });
+    },
+    sendVerificationCodeAgain: async (params) => {
+      await transporter.sendMail({
+        from,
+        ...emails.sendVerificationCodeAgain(params),
       });
     },
     sendPasswordResetLink: async ({ email, verificationLink }) => {
@@ -41,7 +47,7 @@ const createEmails = (
   };
 };
 
-const sendVerificationCodeEmail = (
+const makeSignUpSuccessfullyEmailBody = (
   code: string,
 ) => `You have signed up with this email.
 
@@ -49,7 +55,12 @@ const sendVerificationCodeEmail = (
             
             The code will expire in 2 hours.`;
 
-const sendPasswordResetLinkEmail = (
+const makeEmailVerificationCodeAgainEmailBody = (
+  code: string,
+) => `Here is the code to validate your email : ${code}.
+ The code will expire in 2 hours.`;
+
+const makePasswordResetLinkEmailBody = (
   verificationLink: string,
 ) => `You have requested a password reset.
 
@@ -78,17 +89,23 @@ export const authUseCases = createAuthUseCases({
   emails: createEmails(
     { smtpUrl: env.SMTP_URL, from: env.SMTP_FROM },
     {
-      sendVerificationCode: ({ code, email }) => ({
+      sendSignedUpSuccessfully: ({ code, email }) => ({
+        to: email,
+        subject: "Thank you for signing up",
+        text: makeSignUpSuccessfullyEmailBody(code),
+        html: makeSignUpSuccessfullyEmailBody(code),
+      }),
+      sendVerificationCodeAgain: ({ code, email }) => ({
         to: email,
         subject: "Verify your email address",
-        text: sendVerificationCodeEmail(code),
-        html: sendVerificationCodeEmail(code),
+        text: makeEmailVerificationCodeAgainEmailBody(code),
+        html: makeEmailVerificationCodeAgainEmailBody(code),
       }),
       sendPasswordResetLink: ({ email, verificationLink }) => ({
         to: email,
         subject: "Reset your password",
-        text: sendPasswordResetLinkEmail(verificationLink),
-        html: sendPasswordResetLinkEmail(verificationLink),
+        text: makePasswordResetLinkEmailBody(verificationLink),
+        html: makePasswordResetLinkEmailBody(verificationLink),
       }),
     },
   ),

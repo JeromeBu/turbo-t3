@@ -1,7 +1,7 @@
 import { Button } from "@acme/ui/button";
 
 import { getCurrentUser } from "~/app/auth/_server-actions/getCurrentUser";
-import { authUseCases } from "~/authUseCases";
+import { logout } from "~/app/auth/_server-actions/logout";
 import { redirect } from "~/navigationHelpers";
 
 
@@ -10,7 +10,13 @@ export async function AuthShowcase() {
 
   if (!user) {
     // redirect programmatically to sign up page
-    redirect("/auth/signup");
+    redirect("/auth/login");
+    return;
+  }
+
+  if(user.emailVerifiedAt === null) {
+    // redirect programmatically to verify email page
+    redirect(`/auth/verify-email?email=${user.email}`);
     return;
   }
 
@@ -21,10 +27,7 @@ export async function AuthShowcase() {
       </p>
 
       <form
-        action={async () => {
-          "use server";
-          await authUseCases.logout();
-        }}
+        action={logout}
       >
         <Button size="lg" type="submit">
           Sign out

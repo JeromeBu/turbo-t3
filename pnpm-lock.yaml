@@ -130,8 +130,8 @@ importers:
         specifier: 11.0.0-rc.364
         version: 11.0.0-rc.364
       easy-lucia:
-        specifier: ^0.0.9
-        version: 0.0.9(kysely@0.27.4)
+        specifier: ^0.0.10
+        version: 0.0.10(kysely@0.27.4)
       superjson:
         specifier: 2.2.1
         version: 2.2.1
@@ -189,8 +189,8 @@ importers:
         specifier: ^7.4.2
         version: 7.4.2
       easy-lucia:
-        specifier: ^0.0.9
-        version: 0.0.9(kysely@0.27.4)
+        specifier: ^0.0.10
+        version: 0.0.10(kysely@0.27.4)
       eslint:
         specifier: ^9.2.0
         version: 9.2.0
@@ -221,6 +221,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.3.2)(react@18.3.1)
+      alert:
+        specifier: ^6.0.2
+        version: 6.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -1489,6 +1492,12 @@ packages:
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
 
+  alert@6.0.2:
+    resolution: {integrity: sha512-Oi8u2HRNN6mzpjgKGii2Uuf9iOhyfbeUAHH/5MwnVmC8DS9GrEBjZBFpoavkNj+ZKnBr/Lqx+6YKLDKrggKfPA==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+
   ansi-escapes@4.3.2:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}
     engines: {node: '>=8'}
@@ -1891,8 +1900,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  easy-lucia@0.0.9:
-    resolution: {integrity: sha512-dpRPvHK3cW2mu/tnG3niYxxZwl2rNHvukleol4crIq7Vj1tUXBp5nbvad0vNZhJsD9szld4dSB6sikyly0Z/nA==}
+  easy-lucia@0.0.10:
+    resolution: {integrity: sha512-az7aDmbkuZJoErQixGphS832rp83znOEoTgeQtK/Bz8uyCcSDbKnDLcQ3oGO2fytHgcoli77qNt6vpEeeLOqcg==}
     peerDependencies:
       kysely: ^0.27.4
 
@@ -4860,6 +4869,11 @@ snapshots:
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
 
+  alert@6.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
   ansi-escapes@4.3.2:
     dependencies:
       type-fest: 0.21.3
@@ -5304,7 +5318,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  easy-lucia@0.0.9(kysely@0.27.4):
+  easy-lucia@0.0.10(kysely@0.27.4):
     dependencies:
       kysely: 0.27.4
       lucia: 3.2.0

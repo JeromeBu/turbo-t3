@@ -10,7 +10,8 @@ import {
 } from "@acme/ui/form";
 import { Input } from "@acme/ui/input";
 import { Button } from "@acme/ui/button";
-import { emailAndPasswordSchema, EmailAndPassword } from "@acme/validators";
+import type { EmailAndPassword } from "@acme/validators";
+import { emailAndPasswordSchema } from "@acme/validators";
 
 type EmailPasswordFormProps = {
   submitButtonLabel: string;

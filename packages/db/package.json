@@ -28,7 +28,7 @@
     "@acme/tsconfig": "workspace:*",
     "@types/pg": "^8.11.6",
     "dotenv-cli": "^7.4.2",
-    "easy-lucia": "^0.0.9",
+    "easy-lucia": "^0.0.10",
     "eslint": "^9.2.0",
     "kysely-ctl": "^0.8.4",
     "prettier": "^3.2.5",

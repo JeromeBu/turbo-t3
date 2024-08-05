@@ -34,7 +34,8 @@ const routes = getRoutes(appDir);
 const routeTypes = routes.map(route => route.includes('${string}') ? `\`${route}\`` : `'${route}'`).join(' | ');
 
 const output = `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT.
-export type AppRoutes = ${routeTypes};
+type AppBaseRoutes = ${routeTypes};
+export type AppRoutes = AppBaseRoutes | \`\${AppBaseRoutes}?\${string}\`
 `;
 
 fs.writeFileSync(path.join(__dirname, 'generated-routes.ts'), output);
