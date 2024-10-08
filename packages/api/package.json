@@ -21,7 +21,7 @@
   "dependencies": {
     "@acme/db": "workspace:*",
     "@acme/validators": "workspace:*",
-    "@trpc/server": "11.0.0-rc.364",
+    "@trpc/server": "11.0.0-rc.561",
     "easy-lucia": "^0.0.10",
     "superjson": "2.2.1",
     "zod": "^3.23.8"
