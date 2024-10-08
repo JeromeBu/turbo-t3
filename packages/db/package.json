@@ -10,8 +10,6 @@
     "migrate": "pnpm with-env kysely migrate",
     "dev": "tsc --watch",
     "clean": "rm -rf .turbo node_modules",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
     "with-env": "dotenv -e ../../.env --"
   },
@@ -23,16 +21,11 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
     "@acme/tsconfig": "workspace:*",
     "@types/pg": "^8.11.6",
     "dotenv-cli": "^7.4.2",
     "easy-lucia": "^0.0.10",
-    "eslint": "^9.2.0",
     "kysely-ctl": "^0.8.4",
-    "prettier": "^3.2.5",
     "typescript": "^5.4.5"
-  },
-  "prettier": "@acme/prettier-config"
+  }
 }
