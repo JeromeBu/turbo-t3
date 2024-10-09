@@ -5,9 +5,7 @@ import { z } from "zod";
 export const env = createEnv({
   extends: [vercel()],
   shared: {
-    NODE_ENV: z
-      .enum(["development", "production", "test"])
-      .default("development"),
+    NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   },
   /**
    * Specify your server-side environment variables schema here.

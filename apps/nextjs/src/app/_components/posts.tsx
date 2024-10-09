@@ -5,14 +5,7 @@ import { use } from "react";
 import type { RouterOutputs } from "@acme/api";
 import { cn } from "@acme/ui";
 import { Button } from "@acme/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  useForm,
-} from "@acme/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage, useForm } from "@acme/ui/form";
 import { Input } from "@acme/ui/input";
 import { toast } from "@acme/ui/toast";
 import { createPostSchema } from "@acme/validators";
@@ -156,20 +149,10 @@ export function PostCardSkeleton(props: { pulse?: boolean }) {
   return (
     <div className="flex flex-row rounded-lg bg-muted p-4">
       <div className="flex-grow">
-        <h2
-          className={cn(
-            "w-1/4 rounded bg-primary text-2xl font-bold",
-            pulse && "animate-pulse",
-          )}
-        >
+        <h2 className={cn("w-1/4 rounded bg-primary text-2xl font-bold", pulse && "animate-pulse")}>
           &nbsp;
         </h2>
-        <p
-          className={cn(
-            "mt-2 w-1/3 rounded bg-current text-sm",
-            pulse && "animate-pulse",
-          )}
-        >
+        <p className={cn("mt-2 w-1/3 rounded bg-current text-sm", pulse && "animate-pulse")}>
           &nbsp;
         </p>
       </div>

@@ -3,14 +3,7 @@
 import { z } from "zod";
 
 import { Button } from "@acme/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  useForm,
-} from "@acme/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage, useForm } from "@acme/ui/form";
 import { Input } from "@acme/ui/input";
 import { emailSchema } from "@acme/validators";
 
@@ -30,12 +23,9 @@ export default function ForgetPasswordPage() {
 
   return (
     <>
-      <h1 className="text-5xl font-extrabold tracking-tight sm:text-[3rem]">
-        Forgot Password
-      </h1>
+      <h1 className="text-5xl font-extrabold tracking-tight sm:text-[3rem]">Forgot Password</h1>
       <p className="text-sm text-muted-foreground">
-        Please enter your email address and we will send you a link to reset
-        your password.
+        Please enter your email address and we will send you a link to reset your password.
       </p>
 
       <Form {...form}>

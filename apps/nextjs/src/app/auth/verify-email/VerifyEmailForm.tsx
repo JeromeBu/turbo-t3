@@ -4,14 +4,7 @@ import type { Session } from "easy-lucia";
 import { z } from "zod";
 
 import { Button } from "@acme/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  useForm,
-} from "@acme/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage, useForm } from "@acme/ui/form";
 import { Input } from "@acme/ui/input";
 
 import { verifyEmail } from "~/app/auth/_server-actions/verifyEmail";

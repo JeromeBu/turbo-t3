@@ -11,9 +11,7 @@ export default async function VerifyEmailPage() {
   return (
     <main className="container h-screen py-16">
       <div className="flex flex-col gap-4">
-        <h1 className="text-5xl font-extrabold tracking-tight sm:text-[3rem]">
-          Verify your email
-        </h1>
+        <h1 className="text-5xl font-extrabold tracking-tight sm:text-[3rem]">Verify your email</h1>
 
         <p>You need to verify your email address to continue.</p>
         <p>The email that needs to be verified is : {user.email}</p>

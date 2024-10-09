@@ -9,9 +9,7 @@ export default async function SignUpPage() {
 
   return (
     <>
-      <h1 className="text-5xl font-extrabold tracking-tight sm:text-[3rem]">
-        Sign Up
-      </h1>
+      <h1 className="text-5xl font-extrabold tracking-tight sm:text-[3rem]">Sign Up</h1>
       <EmailPasswordForm submitButtonLabel={"Sign Up"} submitAction={signUp} />
     </>
   );

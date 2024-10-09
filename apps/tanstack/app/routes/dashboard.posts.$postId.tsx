@@ -1,43 +1,43 @@
-import * as React from 'react'
-import { Link, createFileRoute } from '@tanstack/react-router'
-import { z } from 'zod'
+import { Link, createFileRoute } from "@tanstack/react-router";
+import * as React from "react";
+import { z } from "zod";
 
-import { trpc } from '../router'
-import { Spinner } from './-components/spinner'
+import { trpc } from "../router";
+import { Spinner } from "./-components/spinner";
 
-export const Route = createFileRoute('/dashboard/posts/$postId')({
+export const Route = createFileRoute("/dashboard/posts/$postId")({
   validateSearch: z.object({
     showNotes: z.boolean().optional(),
     notes: z.string().optional(),
   }),
   loader: async ({ context: { trpcQueryUtils }, params: { postId } }) => {
-    await trpcQueryUtils.post.ensureData(postId)
+    await trpcQueryUtils.post.ensureData(postId);
   },
   pendingComponent: Spinner,
   component: DashboardPostsPostIdComponent,
-})
+});
 
 function DashboardPostsPostIdComponent() {
-  const postId = Route.useParams({ select: (d) => d.postId })
+  const postId = Route.useParams({ select: (d) => d.postId });
 
-  const postQuery = trpc.post.useQuery(postId)
-  const post = postQuery.data
+  const postQuery = trpc.post.useQuery(postId);
+  const post = postQuery.data;
 
-  const search = Route.useSearch()
-  const navigate = Route.useNavigate()
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
 
-  const [notes, setNotes] = React.useState(search.notes ?? ``)
+  const [notes, setNotes] = React.useState(search.notes ?? "");
 
   React.useEffect(() => {
     navigate({
       search: (old) => ({ ...old, notes: notes ? notes : undefined }),
       replace: true,
       params: true,
-    })
-  }, [notes])
+    });
+  }, [notes, navigate]);
 
   if (!post) {
-    return <div>Post not found</div>
+    return <div>Post not found</div>;
   }
 
   return (
@@ -69,7 +69,7 @@ function DashboardPostsPostIdComponent() {
           params={true}
           className="text-blue-700"
         >
-          {search.showNotes ? 'Close Notes' : 'Show Notes'}{' '}
+          {search.showNotes ? "Close Notes" : "Show Notes"}{" "}
         </Link>
         {search.showNotes ? (
           <>
@@ -90,5 +90,5 @@ function DashboardPostsPostIdComponent() {
         ) : null}
       </div>
     </div>
-  )
+  );
 }

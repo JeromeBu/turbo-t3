@@ -1,46 +1,41 @@
-import {
-  Link,
-  Outlet,
-  createRootRouteWithContext,
-  useRouterState,
-} from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Link, Outlet, createRootRouteWithContext, useRouterState } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-import { Spinner } from './-components/spinner'
-import type { trpcQueryUtils } from '../router'
+import type { trpcQueryUtils } from "../router";
+import { Spinner } from "./-components/spinner";
 
 export interface RouterAppContext {
-  trpcQueryUtils: typeof trpcQueryUtils
+  trpcQueryUtils: typeof trpcQueryUtils;
 }
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
   component: RootComponent,
-})
+});
 
 function RootComponent() {
-  const isFetching = useRouterState({ select: (s) => s.isLoading })
+  const isFetching = useRouterState({ select: (s) => s.isLoading });
 
   return (
     <>
-      <div className={`min-h-screen flex flex-col`}>
-        <div className={`flex items-center border-b gap-2`}>
-          <h1 className={`text-3xl p-2`}>With tRPC</h1>
+      <div className={"min-h-screen flex flex-col"}>
+        <div className={"flex items-center border-b gap-2"}>
+          <h1 className={"text-3xl p-2"}>With tRPC</h1>
           {/* Show a global spinner when the router is transitioning */}
           <div
             className={`text-3xl duration-300 delay-0 opacity-0 ${
-              isFetching ? ` duration-1000 opacity-40` : ''
+              isFetching ? " duration-1000 opacity-40" : ""
             }`}
           >
             <Spinner />
           </div>
         </div>
-        <div className={`flex-1 flex`}>
-          <div className={`divide-y w-56`}>
+        <div className={"flex-1 flex"}>
+          <div className={"divide-y w-56"}>
             {(
               [
-                ['/', 'Home'],
-                ['/dashboard', 'Dashboard'],
+                ["/", "Home"],
+                ["/dashboard", "Dashboard"],
               ] as const
             ).map(([to, label]) => {
               return (
@@ -55,17 +50,17 @@ function RootComponent() {
                       }
                     }
                     preload="intent"
-                    className={`block py-2 px-3 text-blue-700`}
+                    className={"block py-2 px-3 text-blue-700"}
                     // Make "active" links bold
-                    activeProps={{ className: `font-bold` }}
+                    activeProps={{ className: "font-bold" }}
                   >
                     {label}
                   </Link>
                 </div>
-              )
+              );
             })}
           </div>
-          <div className={`flex-1 border-l border-gray-200`}>
+          <div className={"flex-1 border-l border-gray-200"}>
             {/* Render our first route match */}
             <Outlet />
           </div>
@@ -74,5 +69,5 @@ function RootComponent() {
       <TanStackRouterDevtools position="bottom-left" />
       <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
     </>
-  )
+  );
 }

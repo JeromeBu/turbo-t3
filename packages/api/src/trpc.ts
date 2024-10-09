@@ -1,18 +1,12 @@
+import { TRPCError, initTRPC } from "@trpc/server";
 import type { AuthUseCases, Session, User } from "easy-lucia";
-import type { CookieAccessor } from "easy-lucia/types";
-import { initTRPC, TRPCError } from "@trpc/server";
 import { createAuthUseCases, createLuciaAndAuthRepository } from "easy-lucia";
+import type { CookieAccessor } from "easy-lucia/types";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-
-
 import type { KyselyDb } from "@acme/db";
 import { db } from "@acme/db";
-
-
-
-
 
 /**
  * YOU PROBABLY DON'T NEED TO EDIT THIS FILE, UNLESS:
@@ -22,7 +16,6 @@ import { db } from "@acme/db";
  * tl;dr - this is where all the tRPC server stuff is created and plugged in.
  * The pieces you will need to use are documented accordingly near the end
  */
-
 
 /**
  * 1. CONTEXT

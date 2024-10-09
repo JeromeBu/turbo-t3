@@ -4,7 +4,6 @@ import { getCurrentUser } from "~/app/auth/_server-actions/getCurrentUser";
 import { logout } from "~/app/auth/_server-actions/logout";
 import { redirect } from "~/navigationHelpers";
 
-
 export async function AuthShowcase() {
   const user = await getCurrentUser();
 
@@ -14,7 +13,7 @@ export async function AuthShowcase() {
     return;
   }
 
-  if(user.emailVerifiedAt === null) {
+  if (user.emailVerifiedAt === null) {
     // redirect programmatically to verify email page
     redirect(`/auth/verify-email?email=${user.email}`);
     return;
@@ -26,9 +25,7 @@ export async function AuthShowcase() {
         <span>Logged in as {user.email}</span>
       </p>
 
-      <form
-        action={logout}
-      >
+      <form action={logout}>
         <Button size="lg" type="submit">
           Sign out
         </Button>

@@ -2,7 +2,6 @@ import { defineConfig } from "kysely-ctl";
 
 import { dialect } from "../src";
 
-
 export default defineConfig({
   // replace me with a real dialect instance OR a dialect name + `dialectConfig` prop.
   dialect,

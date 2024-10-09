@@ -1,10 +1,6 @@
 import { Suspense } from "react";
 
-import {
-  CreatePostForm,
-  PostCardSkeleton,
-  PostList,
-} from "~/app/_components/posts";
+import { CreatePostForm, PostCardSkeleton, PostList } from "~/app/_components/posts";
 import { AuthShowcase } from "~/app/auth/_components/AuthShowcase";
 import { api } from "~/trpc/server";
 
