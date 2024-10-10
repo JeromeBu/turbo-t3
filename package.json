@@ -25,5 +25,8 @@
     "@turbo/gen": "^1.13.3",
     "turbo": "^2.1.3",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "lefthook": "^1.7.18"
   }
 }

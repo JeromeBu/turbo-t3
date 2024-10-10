@@ -1,0 +1,10 @@
+pre-commit:
+  commands:
+    format-and-lint:
+      run: pnpm check:fix
+      stage_fixed: true
+
+pre-push:
+  commands:
+    fullcheck:
+      run: pnpm fullcheck
