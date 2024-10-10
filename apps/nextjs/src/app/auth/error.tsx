@@ -2,11 +2,11 @@
 
 import { useEffect } from "react";
 
-import { Alert, AlertTitle, AlertDescription } from "@acme/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@acme/ui/alert";
 import { Button } from "@acme/ui/button";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
-
+// biome-ignore lint/suspicious/noShadowRestrictedNames:
 export default function Error({
   error,
   reset,

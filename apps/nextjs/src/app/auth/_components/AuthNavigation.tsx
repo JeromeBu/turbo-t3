@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
 import { usePathname } from "next/navigation";
+import type React from "react";
 
-import type { AppRoutes } from "~/generated-routes";
 import { NavLink } from "~/app/_components/NavLink";
+import type { AppRoutes } from "~/generated-routes";
 
 export function AuthNavigation() {
   return (
@@ -23,7 +23,5 @@ const NavLinkIfNotCurrent = (props: {
   const pathname = usePathname();
   const isCurrent = pathname === props.href;
 
-  return isCurrent ? null : (
-    <NavLink href={props.href}>{props.children}</NavLink>
-  );
+  return isCurrent ? null : <NavLink href={props.href}>{props.children}</NavLink>;
 };

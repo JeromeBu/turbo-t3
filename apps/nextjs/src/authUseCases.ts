@@ -1,7 +1,7 @@
-import type { AuthEmailSenders } from "easy-lucia/types";
-import type {  Cookie } from "easy-lucia";
-import { cookies } from "next/headers";
+import type { Cookie } from "easy-lucia";
 import { createAuthUseCases, createLuciaAndAuthRepository } from "easy-lucia";
+import type { AuthEmailSenders } from "easy-lucia/types";
+import { cookies } from "next/headers";
 import nodemailer from "nodemailer";
 
 import { db } from "@acme/db";
@@ -18,9 +18,7 @@ type CreateEmail<P> = (params: P) => Email;
 const createEmails = (
   { smtpUrl, from }: { smtpUrl: string; from: string },
   emails: {
-    [K in keyof AuthEmailSenders]: CreateEmail<
-      Parameters<AuthEmailSenders[K]>[0]
-    >;
+    [K in keyof AuthEmailSenders]: CreateEmail<Parameters<AuthEmailSenders[K]>[0]>;
   },
 ): AuthEmailSenders => {
   const transporter = nodemailer.createTransport(smtpUrl);
@@ -47,9 +45,7 @@ const createEmails = (
   };
 };
 
-const makeSignUpSuccessfullyEmailBody = (
-  code: string,
-) => `You have signed up with this email.
+const makeSignUpSuccessfullyEmailBody = (code: string) => `You have signed up with this email.
 
             Here is the code to validate your email : ${code}.
             
@@ -60,24 +56,24 @@ const makeEmailVerificationCodeAgainEmailBody = (
 ) => `Here is the code to validate your email : ${code}.
  The code will expire in 2 hours.`;
 
-const makePasswordResetLinkEmailBody = (
-  verificationLink: string,
-) => `You have requested a password reset.
+const makePasswordResetLinkEmailBody = (verificationLink: string) => `You have requested a password reset.
 
             Here is the link to reset your password : ${verificationLink}.
             
             The link will expire in 2 hours.`;
 
 const env = {
+  // biome-ignore lint/style/noNonNullAssertion:
   SMTP_URL: process.env.SMTP_URL!,
+  // biome-ignore lint/style/noNonNullAssertion:
   SMTP_FROM: process.env.SMTP_FROM!,
+  // biome-ignore lint/style/noNonNullAssertion:
   NODE_ENV: process.env.NODE_ENV!,
 };
 
 export const authUseCases = createAuthUseCases({
   cookieAccessor: {
-    set: (cookie) =>
-      cookies().set(cookie.name, cookie.value, cookie.attributes),
+    set: (cookie) => cookies().set(cookie.name, cookie.value, cookie.attributes),
     get: (name) => cookies().get(name) as Cookie,
   },
   resetPasswordBaseUrl: "http://localhost:3000/reset-password",

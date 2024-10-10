@@ -6,6 +6,4 @@ interface NavLinkProps {
   children: React.ReactNode;
 }
 
-export const NavLink = ({ href, children }: NavLinkProps) => (
-  <Link href={href}>{children}</Link>
-);
+export const NavLink = ({ href, children }: NavLinkProps) => <Link href={href}>{children}</Link>;

@@ -7,9 +7,7 @@ export default function AuthLayout({
 }) {
   return (
     <main className="container h-screen py-16">
-      <div className="flex flex-col items-center justify-center gap-4">
-        {children}
-      </div>
+      <div className="flex flex-col items-center justify-center gap-4">{children}</div>
       <div className="p-4">
         <AuthNavigation />
       </div>

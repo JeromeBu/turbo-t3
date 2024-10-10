@@ -1,15 +1,8 @@
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  useForm,
-} from "@acme/ui/form";
-import { Input } from "@acme/ui/input";
 import { Button } from "@acme/ui/button";
+import { Form, FormControl, FormField, FormItem, FormMessage, useForm } from "@acme/ui/form";
+import { Input } from "@acme/ui/input";
 import type { EmailAndPassword } from "@acme/validators";
 import { emailAndPasswordSchema } from "@acme/validators";
 
@@ -18,10 +11,7 @@ type EmailPasswordFormProps = {
   submitAction: (params: EmailAndPassword) => Promise<void>;
 };
 
-export const EmailPasswordForm = ({
-  submitButtonLabel,
-  submitAction,
-}: EmailPasswordFormProps) => {
+export const EmailPasswordForm = ({ submitButtonLabel, submitAction }: EmailPasswordFormProps) => {
   const form = useForm({
     schema: emailAndPasswordSchema,
     defaultValues: {
@@ -30,14 +20,11 @@ export const EmailPasswordForm = ({
     },
   });
 
-  const action: () => Promise<void> = form.handleSubmit(submitAction)
+  const action: () => Promise<void> = form.handleSubmit(submitAction);
 
   return (
     <Form {...form}>
-      <form
-        className="flex w-full max-w-2xl flex-col gap-4"
-        action={action}
-      >
+      <form className="flex w-full max-w-2xl flex-col gap-4" action={action}>
         <FormField
           control={form.control}
           name="email"

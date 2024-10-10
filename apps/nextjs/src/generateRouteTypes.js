@@ -1,15 +1,15 @@
 // @ts-nocheck
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Convert import.meta.url to a file path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const appDir = path.join(__dirname, 'app');
+const appDir = path.join(__dirname, "app");
 
-const getRoutes = (dir, basePath = '') => {
+const getRoutes = (dir, basePath = "") => {
   const files = fs.readdirSync(dir);
   let routes = [];
 
@@ -19,10 +19,10 @@ const getRoutes = (dir, basePath = '') => {
 
     if (stat.isDirectory()) {
       routes = routes.concat(getRoutes(filePath, `${basePath}/${file}`));
-    } else if (file === 'page.tsx' || file === 'page.ts') {
-      const route = `${basePath}/${file.replace(/\.tsx?$/, '')}`.replace(/\/page$/, '');
-      const formattedRoute = route.replace(/\[(\w+?)\]/g, '${string}'); // Convert [id] to ${string}
-      routes.push(formattedRoute === '' ? '/' : formattedRoute);
+    } else if (file === "page.tsx" || file === "page.ts") {
+      const route = `${basePath}/${file.replace(/\.tsx?$/, "")}`.replace(/\/page$/, "");
+      const formattedRoute = route.replace(/\[(\w+?)\]/g, "${string}"); // Convert [id] to ${string}
+      routes.push(formattedRoute === "" ? "/" : formattedRoute);
     }
   });
 
@@ -31,13 +31,15 @@ const getRoutes = (dir, basePath = '') => {
 
 const routes = getRoutes(appDir);
 
-const routeTypes = routes.map(route => route.includes('${string}') ? `\`${route}\`` : `'${route}'`).join(' | ');
+const routeTypes = routes
+  .map((route) => (route.includes("${string}") ? `\`${route}\`` : `'${route}'`))
+  .join(" | ");
 
 const output = `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT.
 type AppBaseRoutes = ${routeTypes};
 export type AppRoutes = AppBaseRoutes | \`\${AppBaseRoutes}?\${string}\`
 `;
 
-fs.writeFileSync(path.join(__dirname, 'generated-routes.ts'), output);
+fs.writeFileSync(path.join(__dirname, "generated-routes.ts"), output);
 
-console.log('Route types generated successfully.');
+console.log("Route types generated successfully.");

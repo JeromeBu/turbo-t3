@@ -12,9 +12,7 @@ export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable("users_sessions")
     .addColumn("id", "text", (c) => c.primaryKey())
-    .addColumn("user_id", "text", (c) =>
-      c.notNull().references("users.id").onDelete("cascade"),
-    )
+    .addColumn("user_id", "text", (c) => c.notNull().references("users.id").onDelete("cascade"))
     .addColumn("expires_at", "timestamptz", (c) => c.notNull())
     .execute();
 
@@ -32,9 +30,7 @@ export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable("users_reset_password_tokens")
     .addColumn("id", "serial", (c) => c.primaryKey())
-    .addColumn("userId", "text", (c) =>
-      c.notNull().references("users.id").onDelete("cascade"),
-    )
+    .addColumn("userId", "text", (c) => c.notNull().references("users.id").onDelete("cascade"))
     .addColumn("tokenHash", "text", (c) => c.notNull())
     .addColumn("expiresAt", "timestamptz", (c) => c.notNull())
     .execute();
